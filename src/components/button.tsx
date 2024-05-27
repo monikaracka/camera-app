@@ -6,6 +6,7 @@ import { ImageLike, createWorker } from "tesseract.js";
 const MyButton = () => {
   const [selectedFile, setSelectedFile] = useState<ImageLike>("");
   const [text, setText] = useState<string>("");
+  const [cardNumber, setCardNumber] = useState<string>("");
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -22,9 +23,19 @@ const MyButton = () => {
     await worker.terminate();
   };
 
+  const filterNumbers = () => {
+    const numberFromText = text.replace(/[^0-9]/g, "");
+    setCardNumber(numberFromText);
+  };
+
   useEffect(() => {
     handleClick();
   }, [selectedFile]);
+
+  useEffect(() => {
+    filterNumbers();
+  }, [text]);
+
   return (
     <>
       <label className="bg-white text-black py-4 px-8 mb-4 cameraButton">
@@ -36,7 +47,8 @@ const MyButton = () => {
           className="hidden"
         />
       </label>
-      <p className="p-4 border">{text}</p>
+      {text && <p className="p-4 mb-3 border">{text}</p>}
+      {cardNumber && <p className="p-4 border">{cardNumber}</p>}
       {/* <button className="bg-white p-5 mt-10 text-black" onClick={handleClick}>
         Recognize text
       </button> */}
