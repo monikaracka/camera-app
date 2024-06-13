@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { ImageLike, createWorker } from "tesseract.js";
 
 const MyButton = () => {
@@ -8,8 +8,23 @@ const MyButton = () => {
   const [text, setText] = useState<string>("");
   const [cardNumber, setCardNumber] = useState<string>("");
 
+  const scanNumber = async (event: any) => {
+    const photo = event.target?.files[0];
+
+    if (photo) {
+      //recognize text from photo
+      const worker = await createWorker("eng");
+      const ret = await worker.recognize(photo);
+      const textFromPhoto = ret.data.text;
+      await worker.terminate();
+      //filter numbers from text
+      const numberFromText = textFromPhoto.replace(/[^0-9]/g, "");
+      setCardNumber(numberFromText);
+    }
+  };
+
   const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
+    const file = event.target?.files[0];
     console.log(file);
 
     setSelectedFile(file);
