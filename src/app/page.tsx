@@ -2,9 +2,9 @@ import MyButton from "@/components/button";
 
 export default function Home() {
   return (
-    <main className="flex justify-evenly items-center p-24 gap-3">
-      <div className="border-solid border-2 w-5 h-[100dvh]"></div>
-      <div className="border-solid border-2 w-5 h-full"></div>
+    <main className="flex justify-evenly items-center gap-3">
+      <div className="border-solid border-2 w-5 h-[100dvh] bg-red-500"></div>
+      <div className="border-solid border-2 w-5 h-[100vh] bg-green-500"></div>
     </main>
   );
 }
